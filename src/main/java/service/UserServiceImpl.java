@@ -36,7 +36,7 @@ public class UserServiceImpl implements UserService{
 		userDao.issueBook(userId,bookId);
 	}
 	
-	@Transactional
+	@Transactional(readOnly = true)
 	public List<Book> viewIssuedBookList(final int userId) {
 		final List<Book> listOfIssuedBooks = userDao.viewIssuedBookList(userId);
 		return listOfIssuedBooks;

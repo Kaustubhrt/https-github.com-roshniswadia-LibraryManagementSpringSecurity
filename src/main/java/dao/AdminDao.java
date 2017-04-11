@@ -10,7 +10,8 @@ public interface AdminDao {
 	public List<Book> viewAllBooks();
 	public Book getBook(final int bookId);
 	public void updateBook(final Book book);
-	public boolean deleteBook(final int bookId);
+	public void deleteBook(final int bookId);
 	public void addNewBook(final Book book);
 	public List<User> viewAllUsers();
+	public String checkBookIssueStatus(final int bookId);
 }

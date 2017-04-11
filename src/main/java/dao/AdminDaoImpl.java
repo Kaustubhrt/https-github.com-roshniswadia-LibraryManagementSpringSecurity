@@ -19,21 +19,6 @@ public class AdminDaoImpl implements AdminDao {
 		this.sessionFactory = sf;
 	}
 
-	/*public boolean checkAdminLogin(final String adminLoginName, final String password) {
-
-		final Session session = this.sessionFactory.getCurrentSession();
-		Query query = session
-				.createQuery("from Admin a where a.adminLoginName =:adminLoginName and a.password =:password");
-		query.setString("adminLoginName", adminLoginName);
-		query.setString("password", password);
-
-		final Admin admin = (Admin) query.uniqueResult();
-
-		if (admin != null)
-			return true;
-		else
-			return false;
-	}*/
 
 	public List<Book> viewAllBooks() {
 
@@ -68,24 +53,21 @@ public class AdminDaoImpl implements AdminDao {
 		query.executeUpdate();
 	}
 
-	public boolean deleteBook(final int bookId) {
+	public void deleteBook(final int bookId) {
 
 		final Session session = this.sessionFactory.getCurrentSession();
-		boolean isIssued = false;
-		Query query = session.createQuery("select issueStatus from Book b where b.bookId =:bookId");
-		query.setInteger("bookId", bookId);
-		final String issueStatus = (String) query.uniqueResult();
-
-		if ("issued".equalsIgnoreCase(issueStatus)) {
-			isIssued = true;
-		} else {
 			Query query2 = session.createQuery("delete from Book e where e.bookId =:bookId");
 			query2.setInteger("bookId", bookId);
 			query2.executeUpdate();
-			isIssued = false;
-		}
-
-		return isIssued;
+	}
+	
+	public String checkBookIssueStatus(final int bookId){
+		final Session session = this.sessionFactory.getCurrentSession();
+		Query query = session.createQuery("select issueStatus from Book b where b.bookId =:bookId");
+		query.setInteger("bookId", bookId);
+		final String issueStatus = (String) query.uniqueResult();
+		return issueStatus;
+		
 	}
 
 	public void addNewBook(final Book book) {

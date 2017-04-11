@@ -3,6 +3,7 @@ package controller;
 import java.security.Principal;
 import java.util.List;
 
+import org.hibernate.Query;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -35,21 +36,6 @@ public class AdminController {
 		System.out.println("############# IN SHOW PAGE");
 		return new ModelAndView("adminhomepage");
 	}
-
-
-	/**
-	 * Returns the Admin's HomePage if login credential are correct. If the
-	 * credentials are wrong or if user enters null values it will redirect to
-	 * the login Page.
-	 * 
-	 * @model The model.
-	 * @param admin
-	 *            An object of bean Admin which contain the username and
-	 *            password.
-	 * 
-	 * @return ModelAndView
-	 */
-
 	@RequestMapping(value = "/admin/adminlogin", method = RequestMethod.GET)
 	public ModelAndView login(@RequestParam(value = "error", required = false) String error,
 			@RequestParam(value = "logout", required = false) String logout) {
@@ -66,7 +52,9 @@ public class AdminController {
 		  model.setViewName("adminlogin");
 
 		  return model;
-	}
+
+		}
+
 
 	/**
 	 * It is used to view all the Books present in the library.
@@ -97,19 +85,21 @@ public class AdminController {
 	@RequestMapping(value = "/admin/delete", method = RequestMethod.GET)
 	public ModelAndView deleteBook(final Model model,
 			@RequestParam(value = "bookId", required = true) final String bookId) {
-		//verifyLoginAttributes(req, userName, res);
-		final boolean isIssued = adminService.deleteBook(Integer.parseInt(bookId));
-
-		if (isIssued == true) {
+		
+		final String issueStatus = adminService.checkBookIssueStatus(Integer.parseInt(bookId));
+		
+		if ("issued".equalsIgnoreCase(issueStatus)) {
 			model.addAttribute("error", "Issued book cannot be deleted");
+		} else {
+			adminService.deleteBook(Integer.parseInt(bookId));
 		}
+
 		final List<Book> bookList = adminService.viewAllBooks();
 		return new ModelAndView("booklist", "bookList", bookList);
 	}
 
 	@RequestMapping(value = "/admin/insert", method = RequestMethod.POST)
 	public ModelAndView addNewBook(Model model, @ModelAttribute("book") final Book book) {
-		//verifyLoginAttributes(req, userName, res);
 		adminService.addNewBook(book);
 		final List<Book> bookList = adminService.viewAllBooks();
 		return new ModelAndView("booklist", "bookList", bookList);
@@ -117,7 +107,6 @@ public class AdminController {
 
 	@RequestMapping("/admin/addBook")
 	public ModelAndView showAddEditBookPage(Model model) {
-		//verifyLoginAttributes(req, userName, res);
 		return new ModelAndView("modifybook");
 	}
 
