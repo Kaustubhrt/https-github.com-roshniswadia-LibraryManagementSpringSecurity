@@ -51,7 +51,7 @@ public class AdminServiceImpl implements AdminService {
 		return users;
 	}
 	
-	@Transactional(readOnly = true)
+	//@Transactional(readOnly = true)
 	public String checkBookIssueStatus(final int bookId){
 		String issueStatus = adminDao.checkBookIssueStatus(bookId);
 		return issueStatus;

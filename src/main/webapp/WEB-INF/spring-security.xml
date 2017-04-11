@@ -9,7 +9,7 @@
 	<global-method-security secured-annotations="enabled" />
 
 	<http name="admin" pattern="/admin/*" request-matcher="ant"
-		auto-config="true" use-expressions="true">
+		 use-expressions="true">
 		<access-denied-handler error-page="/admin/accessDeniedRedirect" />
 		<intercept-url pattern="/admin/adminhomepage" access="hasRole('ROLE_ADMIN')" />
 		<intercept-url pattern="/admin/viewAllUser" access="hasRole('ROLE_ADMIN')" />

@@ -6,9 +6,9 @@
 </head>
 <body>
 
-<h1>Spring MVC Exception Handling</h1>
+<h1>There is some issue. Please contact Support</h1>
 
-${exception.message}
+
 
 </body>
 </html>
