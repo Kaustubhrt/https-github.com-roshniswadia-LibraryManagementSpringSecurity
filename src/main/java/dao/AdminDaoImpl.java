@@ -43,7 +43,6 @@ public class AdminDaoImpl implements AdminDao {
 
 	}
 
-	@Transactional
 	public Book getBook(final int bookId) {
 
 		final Session session = this.sessionFactory.getCurrentSession();

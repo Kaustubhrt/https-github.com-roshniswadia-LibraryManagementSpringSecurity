@@ -127,10 +127,6 @@ public class AdminController {
 		return new ModelAndView("userlist", "userList", userList);
 	}
 
-	@ExceptionHandler(RuntimeException.class)
-	public ModelAndView handle(final RuntimeException ex) {
-		return new ModelAndView("error", "exception", ex);
-	}
 
 	@RequestMapping(value = "/admin/accessDeniedRedirect", method = RequestMethod.GET)
 	public ModelAndView accesssDenied(Principal user) {

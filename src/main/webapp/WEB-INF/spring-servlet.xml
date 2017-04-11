@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:tx="http://www.springframework.org/schema/tx"
 	xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
 		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.0.xsd">
 
-
+	<mvc:annotation-driven />
 
 	<bean
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
@@ -19,7 +20,8 @@
 	<bean id="dataSource"
 		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
-		<property name="url" value="jdbc:mysql://localhost:3306/librarymanagementsecurity" />
+		<property name="url"
+			value="jdbc:mysql://localhost:3306/librarymanagementsecurity" />
 		<property name="username" value="root" />
 		<property name="password" value="root" />
 	</bean>
@@ -50,15 +52,15 @@
 		<property name="sessionFactory" ref="hibernate4AnnotatedSessionFactory" />
 	</bean>
 
-	
-	
+
+
 	<tx:annotation-driven transaction-manager="transactionManager" />
-	
+
 	<!-- For Admin -->
 	<bean id="adminDaoImpl" class="dao.AdminDaoImpl">
 		<property name="sessionFactory" ref="hibernate4AnnotatedSessionFactory" />
 	</bean>
-	
+
 	<bean id="adminServiceImpl" class="service.AdminServiceImpl">
 		<property name="adminDao" ref="adminDaoImpl" />
 	</bean>
@@ -66,14 +68,14 @@
 	<bean id="AdminController" class="controller.AdminController">
 		<property name="adminService" ref="adminServiceImpl" />
 	</bean>
-	
+
 	<!-- For User -->
 	<bean id="userDaoImpl" class="dao.UserDaoImpl">
 		<property name="sessionFactory" ref="hibernate4AnnotatedSessionFactory" />
 	</bean>
-	
+
 	<bean id="userServiceImpl" class="service.UserServiceImpl">
-		<property name="userDao" ref="userDaoImpl"/>
+		<property name="userDao" ref="userDaoImpl" />
 	</bean>
 
 	<bean id="UserController" class="controller.UserController">
